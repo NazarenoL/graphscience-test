@@ -30,7 +30,7 @@
 
 			//Can user Create Ads?
 			if(in_array("CREATE_ADS", $page->perms)){
-				$page->buttons .= '<a class="btn notAvailable">Create Ad</a>';
+				$page->buttons .= '<a class="btn notAvailable btn-mini">Create Ad</a>';
 			}
 
 			//Print the row

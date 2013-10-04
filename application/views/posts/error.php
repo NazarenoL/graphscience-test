@@ -6,7 +6,7 @@
         <h4>An error has ocurred while creating the post. </h4>
         That was bad; My friend facebook said that it was because:<br />
         <?php echo $error;?><br />
-        <a href="<?php site_url();?>" class="btn btn-primary"> Go back to the home</a>
+        <a href="<?php echo site_url();?>" class="btn btn-primary"> Go back to the home</a>
     </div>
     <div class="clear"></div>
 </div>

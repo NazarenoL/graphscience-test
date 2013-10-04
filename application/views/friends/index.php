@@ -38,6 +38,7 @@
         
       </tbody>
     </table>
+	<a href="<?php echo site_url();?>" class="btn btn-primary"> Go back to the home</a>
 </div>
 
  <!-- Function not available in this demo-->

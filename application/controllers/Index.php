@@ -53,6 +53,7 @@ class Index extends CI_Controller {
             $this->load->view('index/connect', $data);
         }else{
             $data['profile_pic'] = "https://graph.facebook.com/" . $user . "/picture";
+            $data['userId'] = $user;
             $this->load->view('index/start',$data);
         }
 

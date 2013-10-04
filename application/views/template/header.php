@@ -21,7 +21,13 @@
         if(isset($schedule)){
             printf('        <script type="text/javascript" src="%sassets/js/bootstrap-datetimepicker.min.js"></script>
             <link rel="stylesheet" href="%sassets/css/datetimepicker.css" type="text/css"/>',base_url(),base_url());
-        }?>
+        }
+        if(isset($datatable)){
+            printf('        <script type="text/javascript" src="%sassets/js/jquery.dataTables.min.js"></script>
+            <link href="%sassets/css/jquery.dataTables.css" rel="stylesheet" media="screen" />', base_url(), base_url(), base_url());
+        }
+
+        ?>
 
     </head>
     <body>

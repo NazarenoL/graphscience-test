@@ -2,8 +2,8 @@
 /**
  * Pages
  *
- * This controllers allows you to view all your pages, 
- * post something to one or more of them, etc
+ * This controllers allows you to view all your pages and 
+ * post something to one of them
  *
  * @author  Nazareno Lorenzo
  */
@@ -104,122 +104,6 @@ class Pages extends CI_Controller {
         //Footer
         $this->load->view('template/footer');
 
-    }
-
-    /**
-     * Creates a new post in the timeline of a page
-     * 
-     * @param integer $pageId 
-     * @return void
-     */
-    public function newPost($pageId){
-        //Get the user id and data (if its connected)  
-        $user = $this->Facebook_user_model->getUser();
-        $data = $this->session->userdata('fb_data');
-
-        //Get the page info
-        $page =  (object) $this->facebook->api('/' . $pageId);
-
-        //Header
-        $this->load->view('template/header', array(
-            'title'       => 'Creating New post to ' . $page->name . ' - GraphScience Test',
-            'multiselect' => 'true',
-            'schedule'     => 'true')
-            );
-
-
-        //If the user sent the form
-        $postData['message'] = $this->input->post('message');
-        if( !empty($postData['message']) ){
-            //The user sent the post
-
-            /* * * * 
-            * IMPORTANT / TO DO:
-            * ---
-            * Its really important to validate the user input,
-            * even if you trust them.
-            * In this case, I won't do the validation, because this is just
-            * a demostration of the Facebook Api Use.
-            */
-            
-            //Get the info
-            $postData['link'] = $this->input->post('link');
-            $postData['targeting']['countries'] = $this->input->post('targeting');
-            $postData['published'] = $this->input->post('published');
-            $postData['schedule'] = $this->input->post('schedule');
-
-            //Analyze the post data and prepare the request to the FBAPI in $post
-            $post['message'] = $postData['message'];
-
-            if( !empty($postData['link']) && $postData['link'] != "http://"){
-                $post['link'] = $postData['link'];
-            }
-
-            if( !empty($postData['targeting']) ) {
-                $post['targeting'] = json_encode($postData['targeting']);
-            }
-
-            if( !empty($postData['published']) ){
-                $post['published'] = 0;
-            }
-            if( !empty($postData['schedule']) ){
-                $post['scheduled_publish_time'] = strtotime($postData['schedule']);
-                $post['published'] = 0;
-            }
-
-            /* * 
-            * Re-validate that this user can edit this page, 
-            * and retrieve the page access_token
-            */
-            $accounts = $this->facebook->api('/me/accounts');
-            foreach($accounts['data'] as $page){
-                //Check if this is the page that im editing
-                if($page['id'] == $pageId){
-                    $post['access_token'] = $page['access_token'];
-                    break;
-                }
-            }
-
-        var_dump($post);
-            //Upload it to the page
-            try {
-                //Upload it to facebook
-                $this->facebook->api('/' . $pageId . '/feed/', 'post', $post);
-                //If nothing went wrong, show a success message
-                $this->load->view('pages/success');
-            } catch (FacebookApiException $e) {
-                //Something went wrong, show the user an error and log it
-                $this->load->view('pages/error', array('error'=>$e) );
-                error_log($e);
-            }
-
-        }else{
-            //Prepare all the data to be sent to the view
-            $pageData['page'] = $page;
-            $this->load->view('pages/form',$pageData);
-        }
-
-        /*
-        * Allowed dates for the scheduled post
-        * They must be greater than 10 minutes from now and less than 6 months
-        */
-        //Actual Date:
-        $actualDate=time();
-        //Calculate the timestamps
-        $startDate = $actualDate + 10*60; //Current timestamp plus 10 minutes
-        $endDate = $actualDate + 6*30*24*60*60;// Current timestamp plus 6 months
-        //Convert them
-        $startDate = date("Y-m-d H:i",$startDate); 
-        $endDate = date("Y-m-d H:i",$endDate);  
-
-
-        //Footer
-        $this->load->view('template/footer', array(
-            'multiselect'  => 'true',
-            'schedule'     => 'true',
-            'startDate'    => $startDate,
-            'endDate'      => $endDate,)
-        );
     }
 
 }

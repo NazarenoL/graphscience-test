@@ -14,7 +14,8 @@
 
 $config = array(
 	'fb_appId'  => '551762271562802',
-	'fb_secret' => 'bd20d2f88bb5e9800d088d996c66f3bd'
+	'fb_secret' => 'bd20d2f88bb5e9800d088d996c66f3bd',
+	'fb_scope'  => 'email,user_birthday,publish_stream,manage_pages'
 );
 
 /* End of file facebook.php */

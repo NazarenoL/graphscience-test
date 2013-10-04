@@ -51,6 +51,6 @@
 	        <button class="btn btn-info" type="submit">Post New Message</button>
     	</p>
     </form>
-    <a href="<?php site_url();?>" class="btn btn-link"> Go back to the home</a>
+    <a href="<?php site_url();?>" class="btn btn-link"> Go Back to the home</a>
 	<div class="clear"></div>
 </div>

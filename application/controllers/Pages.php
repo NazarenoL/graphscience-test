@@ -61,39 +61,47 @@ class Pages extends CI_Controller {
             'title' => 'Your pages - GraphScience Test')
             );
 
-        //Get the data of all the pages that the user have connection
-        $connections =  (object) $this->facebook->api('/me/accounts');
-        
-        $batchRequest = array();//Placeholder
-        $pages = array();
-        //Prepare a batch bunch of request to the api to retrieve additional info from each page
-        //Also, create an array of pages with his ID as the key
-        foreach($connections->data as $page){
-            $batchRequest[] = array( 
-                'relative_url' => '/' . $page['id'],
-                'method' => 'get');
-            $pages[$page['id']] = $page;
-        }
-        //Encode it to be sent as a GET param
-        $batchRequest = urlencode(json_encode($batchRequest));
 
-        //Make the batch request
-        $batchResponse = $this->facebook->api("/?batch=" . $batchRequest, 'POST');
-        
-        //Iterate through responses:
-        foreach($batchResponse as $response){
-            //If it fails, I log it. Ideally, we would retry this
-            if(empty($response['code']) || $response['code'] != 200){
-                error_log("Failed to retrieve in batch request.");
-            }else{
-                //Convert to an array the important part of the response
-                $response = json_decode($response['body']);
-                $pages[$response->id]['talking_about_count'] = $response->talking_about_count ;
-                $pages[$response->id]['new_like_count']      = $response->new_like_count ;
-                $pages[$response->id]['about']               = $response->about ;
-                $pages[$response->id]['link']                = $response->link ;
+        try {
+            //Get the data of all the pages that the user have connection
+            $connections =  (object) $this->facebook->api('/me/accounts');
+            
+            $batchRequest = array();//Placeholder
+            $pages = array();
+            //Prepare a batch bunch of request to the api to retrieve additional info from each page
+            //Also, create an array of pages with his ID as the key
+            foreach($connections->data as $page){
+                $batchRequest[] = array( 
+                    'relative_url' => '/' . $page['id'],
+                    'method' => 'get');
+                $pages[$page['id']] = $page;
             }
+            //Encode it to be sent as a GET param
+            $batchRequest = urlencode(json_encode($batchRequest));
+
+            //Make the batch request
+            $batchResponse = $this->facebook->api("/?batch=" . $batchRequest, 'POST');
+            
+            //Iterate through responses:
+            foreach($batchResponse as $response){
+                //If it fails, I log it. Ideally, we would retry this
+                if(empty($response['code']) || $response['code'] != 200){
+                    error_log("Failed to retrieve in batch request.");
+                }else{
+                    //Convert to an array the important part of the response
+                    $response = json_decode($response['body']);
+                    $pages[$response->id]['talking_about_count'] = $response->talking_about_count ;
+                    $pages[$response->id]['new_like_count']      = $response->new_like_count ;
+                    $pages[$response->id]['about']               = $response->about ;
+                    $pages[$response->id]['link']                = $response->link ;
+                }
+            }
+        } catch (FacebookApiException $e) {
+            //Something went wrong, show the user an error and log it
+            $this->load->view('pages/error', array('error'=>$e) );
+            error_log($e);
         }
+
 
         //Prepare the data for the main view
         $data['pages'] = $pages;

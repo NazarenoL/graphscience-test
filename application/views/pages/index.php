@@ -22,11 +22,11 @@
 
 			//Can user Create Content?
 			if(in_array("CREATE_CONTENT", $page->perms)){
-				$page->buttons .= sprintf('<a href="%s" class="btn btn-success">Create Post</a>',site_url('posts/newPost/page/' . $page->id));
+				$page->buttons .= sprintf('<a href="%s" class="btn btn-success btn-mini">Create Post</a>',site_url('posts/newPost/page/' . $page->id));
 			}
 
 			//View this page on a new tab
-			$page->buttons .= sprintf('<a href="%s" target="_blank" class="btn">View Page</a>',$page->link);
+			$page->buttons .= sprintf('<a href="%s" target="_blank" class="btn btn-mini">View Page</a>',$page->link);
 
 			//Can user Create Ads?
 			if(in_array("CREATE_ADS", $page->perms)){

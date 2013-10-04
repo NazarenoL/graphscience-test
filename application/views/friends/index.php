@@ -18,12 +18,12 @@
 			//Print the row
 			printf('
 			<tr>
-	          <td><img class="img-circle" src="https://graph.facebook.com/%s/picture" /></td>
+	          <td><img class="img-circle profile" src="https://graph.facebook.com/%s/picture" /></td>
 	          <td>%s</td>
 	          <td><strong>%s</strong></td>
 	          <td>
-	              <a href="%s" class="btn btn-success">Post on timeline</a>
-	              <a href="%s" class="btn">View profile</a>
+	              <a href="%s" class="btn btn-success btn-mini">Post on timeline</a>
+	              <a href="%s" class="btn btn-mini">View profile</a>
 	          </td>
 	        </tr>',
 	        $friend->id,

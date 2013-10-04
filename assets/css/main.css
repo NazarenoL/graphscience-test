@@ -33,7 +33,10 @@ body {
     color:#2f96b4;
 }
 .btn{
-    margin:10px 5px;
+    margin:2px;
+}
+.profile{
+    width: 50px;
 }
 
 

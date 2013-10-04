@@ -1,0 +1,3 @@
+[submodule "application/libraries/facebook"]
+	path = application/libraries/facebook
+	url = https://github.com/facebook/facebook-php-sdk.git
